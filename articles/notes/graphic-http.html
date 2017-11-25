@@ -1,0 +1,380 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>《图解HTTP》--读书笔记</title><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-title" content="我的博客"><meta name="description" content="专注前端开发，前端开发技术博客"><meta name="keywords" content="前端开发，PHP开发，Javascript，前端开发博客"><link rel="dns-prefetch" href="www.jesse131.cn"><link rel="stylesheet" type="text/css" href="/css/style.css"><link rel="shortcut icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">《图解HTTP》--读书笔记</h1><a id="logo" href="/.">前端之路</a><p class="description">路漫漫其修远兮，吾将上下而求索</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索..."></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">《图解HTTP》--读书笔记</h1><div class="post-meta"><span class="date">2016-04-02</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i> Hits</i></i></span><a href="/articles/notes/graphic-http.html#comments" class="comment-count"></a></div><div class="post-content"><h3 id="第一章、了解web及网络基础"><a href="#第一章、了解web及网络基础" class="headerlink" title="第一章、了解web及网络基础"></a>第一章、了解web及网络基础</h3><h4 id="1-2-http的诞生"><a href="#1-2-http的诞生" class="headerlink" title="1.2 http的诞生"></a>1.2 http的诞生</h4><p>HTTP于1990年问世，那时候HTTP并没有作为正式的标准被建立，被称为HTTP/0.9</p>
+<p>HTTP正式作为标准被公布是在1996年5月，版本被命名为HTTP/1.0，该协议至今仍被广泛用在服务器端。</p>
+<p>HTTP/1.1于1997年1月公布，是目前主流的HTTP协议版本。</p>
+<p>HTTP/2.0正在制定中。<br><a id="more"></a></p>
+<h4 id="1-3-TCP-IP"><a href="#1-3-TCP-IP" class="headerlink" title="1.3 TCP/IP"></a>1.3 TCP/IP</h4><p>TCP/IP不是某个协议，而是互联网相关的各类协议族的总称。详细内容参见<a href="http://www.cnblogs.com/fengzanfeng/articles/1339347.html" target="_blank" rel="noopener">TCP/IP详解学习笔记</a></p>
+<p>TCP/IP协议族按层次分别为以下4层：</p>
+<p>应用层：决定了向用户提供应用服务时的通信活动，该层包括FTP DNS HTTP</p>
+<p>传输层：对上层应用层，提供处于网络连接中的两台计算机之间的数据传输，该层包括TCP UDP</p>
+<p>网络层：用来处理在网络上流动的数据包，该层规定了通过怎样的路径达到对方计算机并把数据包传送给对方</p>
+<p>链路层：用来处理连接网络的硬件部分，网卡 光纤</p>
+<p>TCP/IP通信传输流程（http举例）</p>
+<p>首先作为发送端的客户端在应用层（http协议）发出一个想看某个web页面的http请求。接着，为了传输的方便，在传输层（tcp协议）把从应用层处收到的数据（http请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。在网络层（ip协议）增加作为通信目的地的MAC地址后转发给链路层。这样，发往网络的通信请求就齐全了。</p>
+<p><img src="http://o8l2fza1x.bkt.clouddn.com/TCPIP.jpg" alt="TCP/IP通信传输流程"></p>
+<h4 id="1-4-1-负责传输的IP协议"><a href="#1-4-1-负责传输的IP协议" class="headerlink" title="1.4.1 负责传输的IP协议"></a>1.4.1 负责传输的IP协议</h4><p>IP协议的作用是把各种数据包传送给对方</p>
+<p>IP地址指明了节点被分配到的地址，MAC地址是指网卡所属的固定地址</p>
+<h4 id="1-4-2-确保可靠性的TCP协议"><a href="#1-4-2-确保可靠性的TCP协议" class="headerlink" title="1.4.2 确保可靠性的TCP协议"></a>1.4.2 确保可靠性的TCP协议</h4><p>TCP协议为了更容易送达大数据才把数据分割，采用三次握手策略确保数据最终送达对方</p>
+<p>三次握手策略：</p>
+<p>发送端首先发送一个带SYN(synchronize)标志的数据包给对方，接收端收到后回传一个带有SYN/ACK标志的数据包以示传达确认信息。最后发送端再回传一个带ACK(acknowledgement)标志的数据包代表握手结束。 </p>
+<h4 id="1-5-负责域名解析的DNS-Domain-Name-System-服务"><a href="#1-5-负责域名解析的DNS-Domain-Name-System-服务" class="headerlink" title="1.5 负责域名解析的DNS(Domain Name System)服务"></a>1.5 负责域名解析的DNS(Domain Name System)服务</h4><p>DNS提供域名到IP地址之间的解析服务</p>
+<h4 id="1-6-各种协议在http协议通信过程中的职责"><a href="#1-6-各种协议在http协议通信过程中的职责" class="headerlink" title="1.6 各种协议在http协议通信过程中的职责"></a>1.6 各种协议在http协议通信过程中的职责</h4><p>按流程顺序分别为：</p>
+<p>DNS服务：把用户输入的域名解析为IP地址</p>
+<p>HTTP协议：生成针对目标web服务器的HTTP请求报文</p>
+<p>TCP协议：为了方便通信将HTTP请求报文分割成报文段，把每个报文段可靠的传给对方</p>
+<p>IP协议：搜索对方的地址，一边中转一边传送</p>
+<p>TCP协议：从对方那里接收报文段并按序号从组请求报文</p>
+<p>HTTP协议：对web服务器请求的内容的处理</p>
+<h4 id="1-7-URI-URL"><a href="#1-7-URI-URL" class="headerlink" title="1.7 URI/URL"></a>1.7 URI/URL</h4><p>URI(Uniform Resource Identifier)某个协议方案的资源的定位标识符</p>
+<p>URL(Uniform Resource Locator)表示互联网资源的具体地点</p>
+<h3 id="第二章、简单的http协议"><a href="#第二章、简单的http协议" class="headerlink" title="第二章、简单的http协议"></a>第二章、简单的http协议</h3><h4 id="2-2-通过请求和响应的交换达成通信"><a href="#2-2-通过请求和响应的交换达成通信" class="headerlink" title="2.2 通过请求和响应的交换达成通信"></a>2.2 通过请求和响应的交换达成通信</h4><p>请求报文是由请求方法、请求URI、协议版本、可选的请求头部字段和内容实体构成的。</p>
+<p><img src="http://o8l2fza1x.bkt.clouddn.com/2.2.1.jpg" alt="请求报文的构成"></p>
+<p>响应报文基本上是由协议版本、状态码、用以解释状态码的原因短语、可选的响应首部字段及实体主体构成。</p>
+<p><img src="http://o8l2fza1x.bkt.clouddn.com/2.2.2.jpg" alt="响应报文的构成"></p>
+<h4 id="2-3-HTTP是不保存状态的协议"><a href="#2-3-HTTP是不保存状态的协议" class="headerlink" title="2.3 HTTP是不保存状态的协议"></a>2.3 HTTP是不保存状态的协议</h4><p>HTTP协议自身不对请求和响应之间的通信状态进行保存</p>
+<h4 id="2-5-告知服务器意图的http方法"><a href="#2-5-告知服务器意图的http方法" class="headerlink" title="2.5 告知服务器意图的http方法"></a>2.5 告知服务器意图的http方法</h4><p>GET:用来访问已被URI识别的资源</p>
+<p>POST:用来传输实体的主体</p>
+<p>GET方法和POST方法的区别：</p>
+<ol>
+<li><p>安全性</p>
+<ul>
+<li>GET请求的数据会附在URL之后（就是把数据放置在HTTP协议头中），以?分割URL和传输数据，参数之间以&amp;相连，参数将明文出现在URL上，容易被他人看到，URL信息也可能会被记录到历史纪录中。</li>
+<li>POST请求是把提交的数据则放置在是HTTP包的包体中。</li>
+</ul>
+</li>
+<li><p>数据长度：</p>
+<ul>
+<li>HTTP协议没有对传输的数据和URL长度进行限制， 但特定浏览器和服务器对URL长度有限制， 因此对于GET提交时，传输数据就会受到URL长度的限制； </li>
+<li>由于POST操作不是通过URL传值，理论上数据长度不受限；</li>
+</ul>
+</li>
+<li><p>GET请求能够被缓存,以GET请求的URL能够保存为浏览器书签，而POST请求则都不能</p>
+</li>
+<li><p>Get是用来从服务器上获得数据，而Post是用来向服务器上传递数据。</p>
+</li>
+</ol>
+<p>以下其他方法均不常用</p>
+<p>PUT:传输文件 HEAD：获得报文首部 DELETE:删除文件 OPTUIONS:询问支持的方法 TRACK:追踪路径 CONNECT：要求用隧道协议连接代理</p>
+<h4 id="2-7-持久连接节省通信量"><a href="#2-7-持久连接节省通信量" class="headerlink" title="2.7 持久连接节省通信量"></a>2.7 持久连接节省通信量</h4><p>持久连接的好处在于减少了TCP连接的重复建立和断开所造成的额外开销，减轻服务器端荷载。在HTTP/1.1中所有连接默认都是持久连接</p>
+<p>持久连接使得多数请求以管线化方式发送，即能同时并行发送多个请求。</p>
+<h4 id="2-8-使用cookie的状态管理"><a href="#2-8-使用cookie的状态管理" class="headerlink" title="2.8 使用cookie的状态管理"></a>2.8 使用cookie的状态管理</h4><p>cookie技术是通过在请求和响应报文中写入cookie信息来控制客户端的状态</p>
+<p>Cookie会根据从服务器发送的响应报文内的一个叫做Set-Cookie的首部字段信息，通知客户端保存cookie。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie值后发送出去。服务器端接收到客户端发送过来的Cookie后，会去检查究竟是从哪一个客户端发来的连接请求，然后对比服务器上的记录，最后得到之前的状态信息。 </p>
+<h3 id="第三章、http报文内的http信息"><a href="#第三章、http报文内的http信息" class="headerlink" title="第三章、http报文内的http信息"></a>第三章、http报文内的http信息</h3><h4 id="3-1-HTTP报文"><a href="#3-1-HTTP报文" class="headerlink" title="3.1 HTTP报文"></a>3.1 HTTP报文</h4><p>HTTP报文大致可分为报文首部和报文主体两块，两者有最初出现的空行来划分，通常并不一定要有报文主体</p>
+<h4 id="3-2-请求报文和响应报文的结构"><a href="#3-2-请求报文和响应报文的结构" class="headerlink" title="3.2 请求报文和响应报文的结构"></a>3.2 请求报文和响应报文的结构</h4><p>请求行：包含用于请求的方法，请求URI和HTTP版本</p>
+<p>状态行：包含响应结果的状态码，原因短语和HTTP版本</p>
+<p>首部字段：包含表示请求和响应的各种条件和属性的各类首部，一般分别为：通用首部、请求首部、响应首部和实体首部。</p>
+<p>其他：包含HTTP的RFC里未定义的首部（Cookie等）</p>
+<h4 id="3-3-编码提升传输速率"><a href="#3-3-编码提升传输速率" class="headerlink" title="3.3 编码提升传输速率"></a>3.3 编码提升传输速率</h4><p>常用的内容编码方式有以下几种：</p>
+<ul>
+<li>gzip(GNU zip)</li>
+<li>compress(UNIX系统的标准压缩)</li>
+<li>deflate(zlib)</li>
+<li>identity(不进行编码)</li>
+</ul>
+<h4 id="3-5-获取部分内容的范围请求-Range-Request"><a href="#3-5-获取部分内容的范围请求-Range-Request" class="headerlink" title="3.5 获取部分内容的范围请求(Range Request)"></a>3.5 获取部分内容的范围请求(Range Request)</h4><p>执行范围请求时，会用到首部字段Range来指定资源的byte范围</p>
+<p>针对范围请求，响应会返回状态码为206 Partial Content的响应报文</p>
+<h4 id="3-6-内容协商返回最合适的内容"><a href="#3-6-内容协商返回最合适的内容" class="headerlink" title="3.6 内容协商返回最合适的内容"></a>3.6 内容协商返回最合适的内容</h4><p>内容协商机制是指客户端和服务器端就响应的资源内容进行交涉，然后提供给客户端最适合的资源。内容协商会以响应资源的语言、字符集、编码方式等作为判断的基准。如首部字段中的Accept、Accept-Charset、Accept-Enoding、Accept-Language、Content-Language</p>
+<h3 id="第四章、返回结果的http状态"><a href="#第四章、返回结果的http状态" class="headerlink" title="第四章、返回结果的http状态"></a>第四章、返回结果的http状态</h3><h4 id="4-1-状态码告知从服务器端返回的请求结果"><a href="#4-1-状态码告知从服务器端返回的请求结果" class="headerlink" title="4.1 状态码告知从服务器端返回的请求结果"></a>4.1 状态码告知从服务器端返回的请求结果</h4><table>
+<thead>
+<tr>
+<th></th>
+<th>类别</th>
+<th>Cool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1XX</td>
+<td>informational(信息性状态码)</td>
+<td>接收的请求正在处理</td>
+</tr>
+<tr>
+<td>2XX</td>
+<td>Success(成功状态码)</td>
+<td>请求正常处理完毕</td>
+</tr>
+<tr>
+<td>3XX</td>
+<td>Redirection(重定向状态码)</td>
+<td>需要进行附加操作已完成请求</td>
+</tr>
+<tr>
+<td>4XX</td>
+<td>Client Error(客户端错误状态码)</td>
+<td>服务器无法处理请求</td>
+</tr>
+<tr>
+<td>5XX</td>
+<td>Server Error(服务器端错误状态码)</td>
+<td>服务器处理请求出错</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-2-2XX成功"><a href="#4-2-2XX成功" class="headerlink" title="4.2 2XX成功"></a>4.2 2XX成功</h4><p>200 OK 表示从客户端发来的请求在服务器端被正常处理</p>
+<p>204 No Content 表示服务器接收的请求已成功处理，但返回的响应报文中不允许返回任何实体的主体部分</p>
+<p>206 Partial Content 表示客户端进行了范围请求，服务器成功执行了这部分GET请求</p>
+<h4 id="4-3-3XX-重定向"><a href="#4-3-3XX-重定向" class="headerlink" title="4.3 3XX 重定向"></a>4.3 3XX 重定向</h4><p>304 Not Modified 表示客户端发送附带条件的GET请求时，其访问的资源（自上次访问以来或者根据请求的条件）未变化</p>
+<h4 id="4-4-4XX客户端错误"><a href="#4-4-4XX客户端错误" class="headerlink" title="4.4 4XX客户端错误"></a>4.4 4XX客户端错误</h4><p>401 Bad Request 表示报文中存在语法错误</p>
+<p>403 Forbidden 表示对请求资源的访问被服务器拒绝了</p>
+<p>404 Not Found 表示服务器上无法找到请求的资源</p>
+<h4 id="4-5-5XX-服务器错误"><a href="#4-5-5XX-服务器错误" class="headerlink" title="4.5 5XX 服务器错误"></a>4.5 5XX 服务器错误</h4><p>501 Internet Sever Error 表示服务器端在执行请求时发生了错误</p>
+<p>503 Service Unavailable 表示服务器暂时处于超负荷或正在停机维护，现无法处理请求</p>
+<h3 id="第五章、与http协作的web服务器"><a href="#第五章、与http协作的web服务器" class="headerlink" title="第五章、与http协作的web服务器"></a>第五章、与http协作的web服务器</h3><h4 id="5-1-用单个虚拟主机实现多个域名"><a href="#5-1-用单个虚拟主机实现多个域名" class="headerlink" title="5.1 用单个虚拟主机实现多个域名"></a>5.1 用单个虚拟主机实现多个域名</h4><p>在相同的IP地址下，由于虚拟主机可以寄存多个不同主机名和域名的Web网站，因此在发送HTTP请求时，必须在Host首部内完整指定主机名或域名的URI</p>
+<h4 id="5-2-1-代理"><a href="#5-2-1-代理" class="headerlink" title="5.2.1 代理"></a>5.2.1 代理</h4><p>代理服务器的基本行为接收客户端发送的请求后转发给其他服务器，代理不改变请求URI,转发时需要附加Via首部字段已标记出经过的主机信息。</p>
+<p>使用代理服务器的理由：</p>
+<ul>
+<li>利用缓存技术（代理缓存）减少网络带宽的流量</li>
+<li>组织内部针对特定网站的访问控制，以获取访问日志为主要目的。</li>
+</ul>
+<h4 id="5-2-2-网关"><a href="#5-2-2-网关" class="headerlink" title="5.2.2 网关"></a>5.2.2 网关</h4><p>网关能使通信线路上的服务器提供非HTTP服务（SQL数据查询）</p>
+<h4 id="5-2-3-隧道"><a href="#5-2-3-隧道" class="headerlink" title="5.2.3 隧道"></a>5.2.3 隧道</h4><p>隧道的目的是确保客户端能与服务器进行安全的通信</p>
+<h3 id="第六章、http首部"><a href="#第六章、http首部" class="headerlink" title="第六章、http首部"></a>第六章、http首部</h3><h4 id="6-2-4-首部字段一览表"><a href="#6-2-4-首部字段一览表" class="headerlink" title="6.2.4 首部字段一览表"></a>6.2.4 首部字段一览表</h4><p>通用首部字段</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache-Control</td>
+<td>控制缓存的行为</td>
+</tr>
+<tr>
+<td>Cache-Control</td>
+<td>逐跳首部、连接的管理</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>创建报文的日期时间</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>报文指令</td>
+</tr>
+<tr>
+<td>Trailer</td>
+<td>报文末端的首部一览</td>
+</tr>
+<tr>
+<td>Transfer-Encoding</td>
+<td>指定报文主体的传输编码方式</td>
+</tr>
+<tr>
+<td>Upgrade</td>
+<td>升级为其他协议</td>
+</tr>
+<tr>
+<td>Via</td>
+<td>代理服务器的相关信息</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>错误通知</td>
+</tr>
+</tbody>
+</table>
+<p>请求首部字段</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept</td>
+<td>用户代理可处理的媒体类型</td>
+</tr>
+<tr>
+<td>Accept-Charset</td>
+<td>优先的字符集</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>优先的内容编码</td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>优先的语言</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>web认证信息</td>
+</tr>
+<tr>
+<td>Expect</td>
+<td>期待服务器的特定行为</td>
+</tr>
+<tr>
+<td>Form</td>
+<td>用户的电子邮箱地址</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>请求资源所在服务器</td>
+</tr>
+<tr>
+<td>if-Match</td>
+<td>比较实体标记ETag</td>
+</tr>
+<tr>
+<td>if-None-Math</td>
+<td>比较实体标记</td>
+</tr>
+<tr>
+<td>if-Modified-Since</td>
+<td>比较资源的更新时间</td>
+</tr>
+<tr>
+<td>if-Unmodified-Since</td>
+<td>比较资源的更新时间</td>
+</tr>
+<tr>
+<td>if-Range</td>
+<td>资源未更新时发送实体byte的范围请求</td>
+</tr>
+<tr>
+<td>Max-Forwards</td>
+<td>最大传输逐跳数</td>
+</tr>
+<tr>
+<td>Proy-Authorization</td>
+<td>代理服务器要求的客户端认证信息</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>对请求中URI的原始获取方</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>实体的字节范围请求</td>
+</tr>
+<tr>
+<td>TE</td>
+<td>传输编码的优先级</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>http客户端程序的信息</td>
+</tr>
+</tbody>
+</table>
+<p>响应首部字段</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept-Range</td>
+<td>是否接受字节范围请求</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>推算资源创建经过时间</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>资源的匹配信息</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>令客户端重定向指定URI</td>
+</tr>
+<tr>
+<td>Proxy-Authenticate</td>
+<td>代理服务器对客户端的认证信息</td>
+</tr>
+<tr>
+<td>Petry-After</td>
+<td>对再次发起请求的时机要求</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>HTTP服务器的安装信息</td>
+</tr>
+<tr>
+<td>Vary</td>
+<td>代理服务器缓存的管理信息</td>
+</tr>
+<tr>
+<td>WWW-Authenticate</td>
+<td>服务器对客户端的认证信息</td>
+</tr>
+</tbody>
+</table>
+<p>实体首部字段</p>
+<p><img src="http://o8l2fza1x.bkt.clouddn.com/6.4.jpg" alt="实体首部字段"></p>
+<h3 id="第七章、确保web安全的https"><a href="#第七章、确保web安全的https" class="headerlink" title="第七章、确保web安全的https"></a>第七章、确保web安全的https</h3><h4 id="7-1http缺点"><a href="#7-1http缺点" class="headerlink" title="7.1http缺点"></a>7.1http缺点</h4><ul>
+<li>通信使用明文，内容可能被窃听</li>
+<li>不验证通信方身份，有可能遭遇伪装</li>
+<li>无法证明报文的完整性，有可能已遭篡改</li>
+</ul>
+<h4 id="7-2-HTTP-加密-认证-完整性保护-HTTPS"><a href="#7-2-HTTP-加密-认证-完整性保护-HTTPS" class="headerlink" title="7.2 HTTP+加密+认证+完整性保护=HTTPS"></a>7.2 HTTP+加密+认证+完整性保护=HTTPS</h4><p>HTTPS并非应用层的一种新协议，只是HTTP通信接口部分用SSL和TLS协议代替而已，其实就是身披SSL协议这层外壳的HTTP</p>
+<p>SSL采用一种叫做公开密钥加密的加密处理方式</p>
+<p>公开密钥加密使用一对非对称的密钥，私有密钥和公开密钥，发送密文的一方使用对方的公开密钥进行加密处理，对方收到被加密的信息后，再使用自己的私有密钥进行解密</p>
+<p>公开密钥加密处理起来比共享密钥加密方式更为复杂，因此若在通信时使用公开密钥加密方式，效率会很低。所以HTTPS采用采用共享密钥加密和公开密钥加密两者并用的混合加密机制</p>
+<p>混合加密机制原理：</p>
+<ol>
+<li>使用公开密钥加密方式安全的交换共享密钥（在稍后的共享密钥加密中要使用的密钥）</li>
+<li>确保交换的秘钥安全的前提下，使用共享密钥加密方式通信。</li>
+</ol>
+<h3 id="第八章、确认访问用户身份的认证"><a href="#第八章、确认访问用户身份的认证" class="headerlink" title="第八章、确认访问用户身份的认证"></a>第八章、确认访问用户身份的认证</h3><h3 id="第九章、基于http的功能追加协议"><a href="#第九章、基于http的功能追加协议" class="headerlink" title="第九章、基于http的功能追加协议"></a>第九章、基于http的功能追加协议</h3><h4 id="9-2-消除http瓶颈的spdy"><a href="#9-2-消除http瓶颈的spdy" class="headerlink" title="9.2 消除http瓶颈的spdy"></a>9.2 消除http瓶颈的spdy</h4><p>http瓶颈：</p>
+<ul>
+<li>一条连接上只可发送一个请求</li>
+<li>请求只能从客户端开始，客户端不可以接收除响应以外的指令</li>
+<li>请求/响应首部未经压缩就发送，首部信息越多延迟越大</li>
+<li>发送冗长的首部，每次发送相同的首部造成的浪费较多</li>
+<li>可任意选择数据压缩格式，非强制压缩发送</li>
+</ul>
+<p>消除http瓶颈方法尝试: </p>
+<ul>
+<li>Ajax 能实时地从服务器获取内容，可能导致大量请求产生</li>
+<li>Comet 内容随可以实时更新，但为了保留响应，一次连接的持续时间变长了，消耗更多资源</li>
+<li>SPDY 虽然能有效消除瓶颈，但当一个web网站使用多个域名下的资源时，改善效果受限制</li>
+</ul>
+<h4 id="9-3-使用浏览器进行双全工通信的WebSocket"><a href="#9-3-使用浏览器进行双全工通信的WebSocket" class="headerlink" title="9.3 使用浏览器进行双全工通信的WebSocket"></a>9.3 使用浏览器进行双全工通信的WebSocket</h4><p>WebSocket协议主要特点：</p>
+<ul>
+<li>支持由服务器向客户端推送数据功能</li>
+<li>减少通信量，不但每次连接总开销减少，而且首部信息也很少</li>
+</ul>
+<p>为了实现WebSocket通信需要将Http的Upgrade首部字段值设为websocket,对于之前的握手请求，返回状态码101 Switching Proticols.成功握手确立WebSocket连接之后，不再使用HTTP的数据帧，而采用WebSocket独立数据帧</p>
+<p>WebSocket API</p>
+<p>javascript可调用“The Websocket API”内提供的websocket程序接口，以实现websocket协议下双全工通信</p>
+<h3 id="第十章、构建web内容的技术"><a href="#第十章、构建web内容的技术" class="headerlink" title="第十章、构建web内容的技术"></a>第十章、构建web内容的技术</h3><h3 id="第十一章、web的攻击技术"><a href="#第十一章、web的攻击技术" class="headerlink" title="第十一章、web的攻击技术"></a>第十一章、web的攻击技术</h3></div><div class="common-bottom"><p>如需转载请保留此段声明</p><p>作者：<a href="/about/">Jesse</a></p><p>出处：<a href="/">http://www.jesse131.cn</a></p><p>如果您对本文有什么疑问，欢迎提出评论，您的建议是我写优质文章的动力。</p></div><div class="tags"><a href="/tags/http/">HTTP</a></div><div class="post-share"><!-- baidu分享--><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="more" class="bds_more"></a></div><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};
+with(document)0[body.appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script></div><div class="post-nav"><a href="/articles/html-css/css3-new-features-compatibility-compatibility-methods-summary.html" class="pre">CSS3新特性，兼容性，兼容方法总结</a><a href="/articles/notes/pro-html5-programming-2nd-edition.html" class="next">《HTML5程序设计第二版》--读书笔记</a></div><div id="comments"><link type="text/css" rel="stylesheet" href="//imsun.github.io/gitment/style/default.css"><div id="gitment-ctn"> </div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一章、了解web及网络基础"><span class="toc-text">第一章、了解web及网络基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-http的诞生"><span class="toc-text">1.2 http的诞生</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-TCP-IP"><span class="toc-text">1.3 TCP/IP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-负责传输的IP协议"><span class="toc-text">1.4.1 负责传输的IP协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-确保可靠性的TCP协议"><span class="toc-text">1.4.2 确保可靠性的TCP协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-负责域名解析的DNS-Domain-Name-System-服务"><span class="toc-text">1.5 负责域名解析的DNS(Domain Name System)服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-各种协议在http协议通信过程中的职责"><span class="toc-text">1.6 各种协议在http协议通信过程中的职责</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-URI-URL"><span class="toc-text">1.7 URI/URL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二章、简单的http协议"><span class="toc-text">第二章、简单的http协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-通过请求和响应的交换达成通信"><span class="toc-text">2.2 通过请求和响应的交换达成通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-HTTP是不保存状态的协议"><span class="toc-text">2.3 HTTP是不保存状态的协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-告知服务器意图的http方法"><span class="toc-text">2.5 告知服务器意图的http方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-7-持久连接节省通信量"><span class="toc-text">2.7 持久连接节省通信量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-8-使用cookie的状态管理"><span class="toc-text">2.8 使用cookie的状态管理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三章、http报文内的http信息"><span class="toc-text">第三章、http报文内的http信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-HTTP报文"><span class="toc-text">3.1 HTTP报文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-请求报文和响应报文的结构"><span class="toc-text">3.2 请求报文和响应报文的结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-编码提升传输速率"><span class="toc-text">3.3 编码提升传输速率</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-获取部分内容的范围请求-Range-Request"><span class="toc-text">3.5 获取部分内容的范围请求(Range Request)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-内容协商返回最合适的内容"><span class="toc-text">3.6 内容协商返回最合适的内容</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四章、返回结果的http状态"><span class="toc-text">第四章、返回结果的http状态</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-状态码告知从服务器端返回的请求结果"><span class="toc-text">4.1 状态码告知从服务器端返回的请求结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2XX成功"><span class="toc-text">4.2 2XX成功</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-3XX-重定向"><span class="toc-text">4.3 3XX 重定向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-4XX客户端错误"><span class="toc-text">4.4 4XX客户端错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-5XX-服务器错误"><span class="toc-text">4.5 5XX 服务器错误</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五章、与http协作的web服务器"><span class="toc-text">第五章、与http协作的web服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-用单个虚拟主机实现多个域名"><span class="toc-text">5.1 用单个虚拟主机实现多个域名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-1-代理"><span class="toc-text">5.2.1 代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-2-网关"><span class="toc-text">5.2.2 网关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-3-隧道"><span class="toc-text">5.2.3 隧道</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六章、http首部"><span class="toc-text">第六章、http首部</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-4-首部字段一览表"><span class="toc-text">6.2.4 首部字段一览表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第七章、确保web安全的https"><span class="toc-text">第七章、确保web安全的https</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1http缺点"><span class="toc-text">7.1http缺点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-HTTP-加密-认证-完整性保护-HTTPS"><span class="toc-text">7.2 HTTP+加密+认证+完整性保护=HTTPS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第八章、确认访问用户身份的认证"><span class="toc-text">第八章、确认访问用户身份的认证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第九章、基于http的功能追加协议"><span class="toc-text">第九章、基于http的功能追加协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-2-消除http瓶颈的spdy"><span class="toc-text">9.2 消除http瓶颈的spdy</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-3-使用浏览器进行双全工通信的WebSocket"><span class="toc-text">9.3 使用浏览器进行双全工通信的WebSocket</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第十章、构建web内容的技术"><span class="toc-text">第十章、构建web内容的技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第十一章、web的攻击技术"><span class="toc-text">第十一章、web的攻击技术</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/articles/tool/the-usual-command-line-of-line-of-vim.html">工作中常用到的Vim命令</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/html-css/make-a-thorough-inquiry-about-css-vertical-align.html">Vertical-Align属性探究</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/php/Yii-study-notes.html">Yii1.1.16学习记录</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/mobile/mobile-webpages-commonly-used-header-tags.html">移动端Web页面开发常用的头部标签设置</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/tool/the-usual-git-command.html">常用的Git命令整理</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/html-css/summary-of-various-length-unit-in-css.html">CSS中各种长度单位总结</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/javascript/the-different-between-innerHTML-innerText-and-textContent.html">innerHTML,innerText,textContent的区别详解</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/javascript/对JavaScript中this的理解.html">对JavaScript中this的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/tool/set-up-my-front-end-build-tool-webpack.html">搭建自己的Webpack前端构建工具</a></li><li class="post-list-item"><a class="post-list-link" href="/articles/notes/performance-best-practices-for-web-developer.html">《高性能网站建设进阶指南》--读书笔记</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-gui"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/bootstrap/">Bootstrap</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/html-css/">HTML-CSS</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript/">JavaScript</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">PHP</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/photoshop/">Photoshop</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/web/">WEB</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/webserver/">WEB服务器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jquery/">jQuery</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/tool/">前端工具</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/translation/">前端翻译</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mobile/">移动端开发</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/notes/">读书笔记</a><span class="category-list-count">13</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/photoshop/" style="font-size: 15px;">Photoshop</a> <a href="/tags/bootstrap/" style="font-size: 15px;">Bootstrap</a> <a href="/tags/html/" style="font-size: 15px;">HTML</a> <a href="/tags/javascript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/jquery/" style="font-size: 15px;">jQuery</a> <a href="/tags/mobile/" style="font-size: 15px;">Mobile</a> <a href="/tags/http/" style="font-size: 15px;">HTTP</a> <a href="/tags/web/" style="font-size: 15px;">WEB</a> <a href="/tags/angularjs/" style="font-size: 15px;">AngularJs</a> <a href="/tags/css/" style="font-size: 15px;">CSS</a> <a href="/tags/php/" style="font-size: 15px;">PHP</a> <a href="/tags/yii/" style="font-size: 15px;">Yii</a> <a href="/tags/gulp/" style="font-size: 15px;">Gulp</a> <a href="/tags/webpack/" style="font-size: 15px;">Webpack</a> <a href="/tags/vim/" style="font-size: 15px;">Vim</a> <a href="/tags/git/" style="font-size: 15px;">Git</a> <a href="/tags/sublimetext3/" style="font-size: 15px;">SublimeText3</a> <a href="/tags/apache/" style="font-size: 15px;">Apache</a> <a href="/tags/mysql/" style="font-size: 15px;">MySQL</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">2</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 友情链接</i></div><ul><li><a href="http://javascript.ruanyifeng.com/" title="JavaScript 标准参考教程" target="_blank">JavaScript 标准参考教程</a></li><li><a href="http://www.cnblogs.com/lyzg/" title="流云诸葛" target="_blank">流云诸葛</a></li><li><a href="http://www.cnblogs.com/TomXu/archive/2011/12/15/2288411.html" title="深入理解JavaScript系列" target="_blank">深入理解JavaScript系列</a></li><li><a href="http://caibaojian.com/page/2" title="前端开发博客" target="_blank">前端开发博客</a></li><li><a href="http://www.cnblogs.com/jesse131/" title="前端开发之路" target="_blank">前端开发之路</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><span> Copyright &copy 2016-2017 <a href="//about/" rel="nofollow">Jesse.</a></span></p><p><span>Total visits：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i></span><span> Theme by  <a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Powered by  <a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><!-- 百度统计--><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?467c30f9f602c453fb62d79e98d80329";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.appendChild(hm);
+  })();
+</script><!-- 百度内容推送--><script>(function(){
+  var bp = document.createElement('script');
+  var curProtocol = window.location.protocol.split(':')[0];
+  if (curProtocol === 'https'){
+   bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+  }
+  else{
+    bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  }
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.appendChild(bp);
+})();
+
+</script><script type="text/javascript" src="/js/bundle.js"></script><!--gitment--><script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script><script>var gitment = new Gitment({
+  //- id: window.location.href,
+  owner: 'Jesse121',
+  repo: 'http://www.jesse131.cn/blog/',
+  oauth: {
+    client_id: '1d84813ae13cd94072f0',
+    client_secret: 'e0a20bd0498c8eb5eb6145c9802b47597d35f35a',
+  },
+})
+gitment.render('gitment-ctn')</script></body></html>
