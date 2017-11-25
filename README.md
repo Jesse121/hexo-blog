@@ -122,7 +122,7 @@ node_sass:
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png">
 ```
-5.将网站中用到的字体文件上传到七牛云存储，通过CDN加速提高访问速度
+5.将网站中用到的字体文件上传到七牛云存储，通过CDN加速提高访问速度  
 6.调整js文件的位置，尽可能的放在后面，较少首页白屏时间
 
 ### 添加gulp优化后发布博客常用命令使用顺序
@@ -144,7 +144,7 @@ node_sass:
 #### 添加gitment评论
 ##### 注册oAuth application
 在github中注册oAuth application，可以点击[这里](https://github.com/settings/applications/new)进入  
-这里需要注意Authorization callback URL需填写博客所在仓库的访问链接，我这里是http://www.jesse131.cn,点击register application后即可生成Client ID和Client Secret,这俩后面要用到
+这里需要注意Authorization callback URL需填写博客所在仓库的访问链接，我这里是[http://www.jesse131.cn](http://www.jesse131.cn),点击register application后即可生成Client ID和Client Secret,这俩后面要用到
 
 ##### 修改主题文件
 这里需要修改主题文件夹中的以下文件  
