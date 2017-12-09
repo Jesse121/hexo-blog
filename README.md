@@ -183,7 +183,8 @@ if theme.comment.gitment
 
 
 ### 需要改进的地方
-
+ 1. 添加content.js
+ 2. 个人信息至首页
  3. 最近评论列表
  4. 首页显示评论数
  5. 性能优化 gulp
