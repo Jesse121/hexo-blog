@@ -180,13 +180,47 @@ if theme.comment.gitment
   #gitment-ctn 
 ```
 
+#### 添加关于我
+创建abutme.jade
+```
+.widget
+  .widget-title
+    i(class='fa fa-user')= ' ' + __('aboutme')
+  .avatar
+    img(src="http://o8l2fza1x.bkt.clouddn.com/apple-touch-icon.png")
+  .author
+    p
+      //- i(class="fa fa-user")
+      span(class="name")= '姓名：杨冬'
+    p
+      //- i(class="fa fa-email")
+      a(href="mailto:jesse152@163.com")= '邮箱：jesse152@163.com'
+    p.github
+      //- i(class="fa fa-github")
+      a(href="https://github.com/Jesse121/jesse131.cn",target="_blank")
+        img(src="http://o8l2fza1x.bkt.clouddn.com/github.png")
+
+```
+在theme/_config.yml文件中修改如下配置
+```
+# Sidebar
+widgets:
+  - aboutme
+  - recent_posts
+  - category
+  - tag
+  - archive
+  - links
+```
+在语言文件中添加`aboutme: 关于我`
+在样式文件中添加必要的样式
+
 
 
 ### 需要改进的地方
- 2. 个人信息至首页
  3. 最近评论列表
  4. 首页显示评论数
  5. 性能优化 gulp
- 6. 添加图书页面，微博，Github follow
+ 6. 添加图书页面，微博
  7. 侧边标题栏默认折叠
  8. 将首页分类改为点击量
