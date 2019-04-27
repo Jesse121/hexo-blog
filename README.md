@@ -10,15 +10,6 @@
 * hexo d 开始上传推送
 * hexo clean 清除缓存文件 (db.json) 和已生成的静态文件 (public)。
 
-#### 常用的几个npm命令
-查看当前目录下已经安装了那些包  
-$ npm list --depth=0  
-查看全局目录下已经安装了那些包  
-$ npm list -g --depth=0  
-安装插件命令  
-$ npm install hexo-generator-sitemap -S  
-卸载插件命令  
-$ npm uninstall hexo-generator-sitemap -S  
 
 #### 如何更换hexo主题
 1. 下载主题  
@@ -32,19 +23,7 @@ $ npm uninstall hexo-generator-sitemap -S
 4. 主题设定
     主题配置完成后，使用`hexo d`发布即可
 
-#### 使用自己购买的域名
-##### 域名解析
-在域名解析记录中添加以下两条记录
 
-1. 先添加一个CNAME，子域名为空，后面记录值写上你的http://xxxx.github.io
-2. 再添加一个CNAME，子域名写www，后面记录值也是http://xxxx.github.io
-
-这样用www和不用www都能访问你的网站
-##### 添加CNAME文件
-在source文件夹中添加名称为CNAME的文件，里面填写你的域名例如：jesse131.cn  
-如果希望你的博客默认使用带www的链接，可以在这里只填写带www的 例如：www.jesse131.cn  
-##### 为github pages选定source
-在博客所在的github仓库中点击setting，在GitHub pages的source中选择你要使用的哪个分支，一般选择master分支，点击save即可看到绑定成功
 
 #### 添加公共尾部标识
 ##### 编写common_bottom.jade模板文件
@@ -99,7 +78,7 @@ node_sass:
 2. 合并多个css文件为一个style.css，合并多个js文件为一个bundle.js
 3. 给生成的css和js文件添加版本号(与提速无关，主要是做个实验)
 
-详细内容可参考[jesse131.cn](https://github.com/Jesse121/jesse131.cn)仓库中的gulpfile.js文件
+详细内容可参考[jesse131.cn](https://github.com/Jesse121/blog)仓库中的gulpfile.js文件
 
 ##### 其他优化措施
 1.添加对移动端友好的视口
@@ -152,7 +131,7 @@ _config.yml--这里主题配置文件,在comment中追加以下内容
 ```js
 gitment:
 gitment_owner: Jesse121 //你的github的名称
-gitment_repo: www.jesse131.cn //你的博客所在仓库的访问链接
+gitment_repo: 'https://jesse121.github.io/blog' //你的博客所在仓库的访问链接
 gitment_oauth:
   client_id: ******** //这里填写刚才生成的Client ID
   client_secret: **********  //这里填写刚才生成的Client Secret
@@ -197,8 +176,7 @@ if theme.comment.gitment
       a(href="mailto:jesse152@163.com")= '邮箱：jesse152@163.com'
     p.github
       //- i(class="fa fa-github")
-      a(href="https://github.com/Jesse121/jesse131.cn",target="_blank")
-        img(src="http://o8l2fza1x.bkt.clouddn.com/github.png")
+      a(href="https://github.com/Jesse121",target="_blank")
 
 ```
 在theme/_config.yml文件中修改如下配置
@@ -215,7 +193,29 @@ widgets:
 在语言文件中添加`aboutme: 关于我`
 在样式文件中添加必要的样式
 
+#### 使用自己购买的域名
+##### 域名解析
+在域名解析记录中添加以下两条记录
 
+1. 先添加一个CNAME，子域名为空，后面记录值写上你的http://xxxx.github.io
+2. 再添加一个CNAME，子域名写www，后面记录值也是http://xxxx.github.io
+
+这样用www和不用www都能访问你的网站
+##### 添加CNAME文件
+在source文件夹中添加名称为CNAME的文件，里面填写你的域名例如：jesse131.cn  
+如果希望你的博客默认使用带www的链接，可以在这里只填写带www的 例如：www.jesse131.cn  
+##### 为github pages选定source
+在博客所在的github仓库中点击setting，在GitHub pages的source中选择你要使用的哪个分支，一般选择master分支，点击save即可看到绑定成功
+
+#### 常用的几个npm命令
+查看当前目录下已经安装了那些包  
+$ npm list --depth=0  
+查看全局目录下已经安装了那些包  
+$ npm list -g --depth=0  
+安装插件命令  
+$ npm install hexo-generator-sitemap -S  
+卸载插件命令  
+$ npm uninstall hexo-generator-sitemap -S  
 
 ### 需要改进的地方
  3. 最近评论列表
