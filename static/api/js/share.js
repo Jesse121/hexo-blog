@@ -134,7 +134,7 @@ window._bd_share_main ? window._bd_share_is_recently_loaded = !0 : (window._bd_s
         load: function () {
             s.loadingPaths[this.path] = !0;
             var t = this.svnMod || d,
-                n = window._bd_share_main.jscfg.domain.staticUrl + "/blog/static/" + t + "/",
+                n = window._bd_share_main.jscfg.domain.staticUrl + "blog/static/" + t + "/",
                 i = this,
                 a = /\.css(?:\?|$)/i.test(this.name);
             this.type = a ? "css" : "js";
