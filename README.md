@@ -92,7 +92,12 @@ node_sass:
 ```
 3.添加预解析 
 ```
-<link rel="dns-prefetch" href="www.jesse131.cn">
+<link rel="dns-prefetch" href="//hm.baidu.com">
+<link rel="dns-prefetch" href="//sp0.baidu.com">
+<link rel="dns-prefetch" href="//zz.bdstatic.com">
+<link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+<link rel="dns-prefetch" href="//imsun.github.io">
+<link rel="dns-prefetch" href="///api.github.io">
 ```
 4.添加icon文件,在分享网站链接时能显示的图片
 ```
