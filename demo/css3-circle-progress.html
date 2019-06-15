@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css-counter-demo</title>
+    <style>
+        section {
+            width: 98%;
+        }
+
+        h4 {
+            background-color: #ccc;
+        }
+
+        @media screen and (min-width: 48em) {
+            section {
+                width: 48%;
+            }
+
+            .left {
+                float: left;
+            }
+
+            .right {
+                float: right;
+            }
+        }
+    </style>
+    <style>
+        .circleProgress_wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .wrapper {
+            width: 100px;
+            height: 200px;
+            position: absolute;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .right {
+            right: 0;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .circleProgress {
+            width: 160px;
+            height: 160px;
+            border: 20px solid transparent;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+        }
+
+        .rightcircle {
+            border-top: 20px solid red;
+            border-right: 20px solid red;
+            right: 0;
+            animation: circleProgressLoad_right 6s linear infinite;
+        }
+
+        .leftcircle {
+            border-bottom: 20px solid red;
+            border-left: 20px solid red;
+            left: 0;
+            animation: circleProgressLoad_left 6s linear infinite;
+        }
+
+        @keyframes circleProgressLoad_right {
+            0% {
+                transform: rotate(45deg);
+            }
+
+            50%,
+            100% {
+                transform: rotate(225deg);
+            }
+        }
+
+        @keyframes circleProgressLoad_left {
+
+            0%,
+            50% {
+                transform: rotate(45deg);
+            }
+
+            100% {
+                transform: rotate(225deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="left">
+        <h4>代码</h4>
+        <pre>
+        &lt;style&gt;
+        .circleProgress_wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .wrapper {
+            width: 100px;
+            height: 200px;
+            position: absolute;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .right {
+            right: 0;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .circleProgress {
+            width: 160px;
+            height: 160px;
+            border: 20px solid transparent;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            /*transform: rotate(45deg);*/
+        }
+
+        .rightcircle {
+            border-top: 20px solid red;
+            border-right: 20px solid red;
+            right: 0;
+            animation: circleProgressLoad_right 6s linear infinite;
+        }
+
+        .leftcircle {
+            border-bottom: 20px solid red;
+            border-left: 20px solid red;
+            left: 0;
+            animation: circleProgressLoad_left 6s linear infinite;
+        }
+
+        @keyframes circleProgressLoad_right {
+            0% {
+                transform: rotate(45deg);
+            }
+
+            50%,
+            100% {
+                transform: rotate(225deg);
+            }
+        }
+
+        @keyframes circleProgressLoad_left {
+
+            0%,
+            50% {
+                transform: rotate(45deg);
+            }
+
+            100% {
+                transform: rotate(225deg);
+            }
+        }
+        &lt;/style&gt;
+        &lt;div class="circleProgress_wrapper"&gt;
+            &lt;div class="wrapper right"&gt;
+                &lt;div class="circleProgress rightcircle"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="wrapper left"&gt;
+                &lt;div class="circleProgress leftcircle"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        </pre>
+    </section>
+    <section class="right">
+        <h4>结果</h4>
+        <div class="circleProgress_wrapper">
+            <div class="wrapper right">
+                <div class="circleProgress rightcircle"></div>
+            </div>
+            <div class="wrapper left">
+                <div class="circleProgress leftcircle"></div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

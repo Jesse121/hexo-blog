@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css-counter-demo</title>
+    <style>section {width: 98%;}h4{background-color: #ccc;}@media screen and (min-width: 48em) {section{width:48%;}.left {float: left;}.right {float: right;}}</style>
+    <style>
+        li {
+            font-size: 24px;
+            color: #cd0000;
+            list-style: none;
+        }
+        .level{
+            counter-reset:level;
+        }
+        .level > li::before{
+            content: counters(level,'.')'.';
+            counter-increment: level;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="left">
+        <h4>代码</h4>
+        <pre>
+&lt;style&gt;
+li {
+    font-size: 24px;
+    color: #cd0000;
+    list-style: none;
+}
+.level{
+    counter-reset:level;
+}
+.level > li::before{
+    content: counters(level,'.')'.';
+    counter-increment: level;
+}
+&lt;/style&gt;
+&lt;ul class="level"&gt;
+    &lt;li&gt;a
+        &lt;ul class="level"&gt;
+            &lt;li&gt;a&lt;/li&gt;
+            &lt;li&gt;a
+                &lt;ul class="level"&gt;
+                    &lt;li&gt;a&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;a&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;b&lt;/li&gt;
+    &lt;li&gt;c
+        &lt;ul class="level"&gt;
+            &lt;li&gt;c&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;d&lt;/li&gt;
+&lt;/ul&gt;
+        </pre>
+    </section>
+    <section class="right">
+        <h4>结果</h4>
+        <ul class="level">
+            <li>a
+                <ul class="level">
+                    <li>a</li>
+                    <li>a
+                        <ul class="level">
+                            <li>a</li>
+                        </ul>
+                    </li>
+                    <li>a</li>
+                </ul>
+            </li>
+            <li>b</li>
+            <li>c
+                <ul class="level">
+                    <li>c</li>
+                </ul>
+            </li>
+            <li>d</li>
+        </ul>
+    </section>
+</body>
+
+</html>
